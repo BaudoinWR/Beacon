@@ -1,6 +1,7 @@
-package fr.woorib.beacon.persistance;
+package fr.woorib.beacon.persistance.hsql;
 
 import fr.woorib.beacon.data.BeaconEntry;
+import fr.woorib.beacon.persistance.Store;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,10 +10,10 @@ import java.util.List;
 /**
  * Created by Veryeld on 30/03/2017.
  */
-public class StoreHSQL implements Store {
+public class HsqlStore implements Store {
     Connection c;
 
-    public StoreHSQL() {
+    public HsqlStore() {
 //        Connection c = DriverManager.getConnection("jdbc:hsqldb:file:testdb", "SA", "");
         try {
             c = DriverManager.getConnection("jdbc:hsqldb:file:d:/beacondb/beacdb", "SA", "pipou");
@@ -21,12 +22,12 @@ public class StoreHSQL implements Store {
         }
     }
 
-    public void save(BeaconEntry beaconEntry) {
+    public void save(Integer userId, Double latitude, Double longitude) {
         try {
             PreparedStatement preparedStatement = c.prepareStatement("insert into Beacon(userid, latitude, longitude) values (?, ?, ?)");
-            preparedStatement.setInt(1, beaconEntry.getUserId());
-            preparedStatement.setDouble(2, beaconEntry.getLatitude());
-            preparedStatement.setDouble(3, beaconEntry.getLongitude());
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setDouble(2, latitude);
+            preparedStatement.setDouble(3, longitude);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -39,16 +40,39 @@ public class StoreHSQL implements Store {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next())
-                return new BeaconEntry(resultSet.getInt(1),
-                        resultSet.getInt(2),
-                        resultSet.getDouble(3),
-                        resultSet.getDouble(4));
-
+            while (resultSet.next()) {
+                BeaconEntry beaconEntry = extractBeacon(resultSet);
+                return beaconEntry;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private BeaconEntry extractBeacon(ResultSet resultSet) throws SQLException {
+        final int beaconid = resultSet.getInt(1);
+        final int userid = resultSet.getInt(2);
+        final double latitude = resultSet.getDouble(3);
+        final double longitude = resultSet.getDouble(4);
+
+        return new BeaconEntry() {
+            public Integer getUserId() {
+                return userid;
+            }
+
+            public Double getLongitude() {
+                return longitude;
+            }
+
+            public Double getLatitude() {
+                return latitude;
+            }
+
+            public int getBeaconId() {
+                return beaconid;
+            }
+        };
     }
 
     public List<BeaconEntry> getBeaconByUserId(Integer userId) {
@@ -58,12 +82,9 @@ public class StoreHSQL implements Store {
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next())
-                results.add(new BeaconEntry(resultSet.getInt(1),
-                        resultSet.getInt(2),
-                        resultSet.getDouble(3),
-                        resultSet.getDouble(4)));
-
+            while (resultSet.next()) {
+                results.add(extractBeacon(resultSet));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -93,13 +114,13 @@ public class StoreHSQL implements Store {
         }
     }
     public static void main(String[] args) {
-        StoreHSQL storeHSQL = new StoreHSQL();
-        storeHSQL.setupDB();
-        storeHSQL.save(new BeaconEntry(1, 45.792186, 4.792958));
-        storeHSQL.save(new BeaconEntry(3, 2.56423d,41.56d));
-        storeHSQL.save(new BeaconEntry(3, 2.54566d,2.545689d));
-        storeHSQL.save(new BeaconEntry(1, 52.54565d,24.65659d));
-        storeHSQL.save(new BeaconEntry(1, 25.54668d,32.5464d));
-        storeHSQL.shutdown();
+        HsqlStore hsqlStore = new HsqlStore();
+        hsqlStore.setupDB();
+        hsqlStore.save(1, 45.792186, 4.792958);
+        hsqlStore.save(3, 2.56423d,41.56d);
+        hsqlStore.save(3, 2.54566d,2.545689d);
+        hsqlStore.save(1, 52.54565d,24.65659d);
+        hsqlStore.save(1, 25.54668d,32.5464d);
+        hsqlStore.shutdown();
     }
 }

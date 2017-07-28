@@ -56,11 +56,26 @@ public class BeaconServiceTest {
     private static class StoreTest implements Store {
         Integer id = 0;
         public List<BeaconEntry> entries = new ArrayList<BeaconEntry>();
-        public void save(BeaconEntry beaconEntry) {
-            entries.add(new BeaconEntry(id++,
-                    beaconEntry.getUserId(),
-                    beaconEntry.getLatitude(),
-                    beaconEntry.getLongitude()));
+
+        public void save(final Integer userId, final Double latitude, final Double longitude) {
+            final int beaconId = id++;
+            entries.add(new BeaconEntry() {
+                public Integer getUserId() {
+                    return userId;
+                }
+
+                public Double getLongitude() {
+                    return longitude;
+                }
+
+                public Double getLatitude() {
+                    return latitude;
+                }
+
+                public int getBeaconId() {
+                    return beaconId;
+                }
+            });
         }
 
         public BeaconEntry getBeaconByBeaconId(Integer beaconId) {

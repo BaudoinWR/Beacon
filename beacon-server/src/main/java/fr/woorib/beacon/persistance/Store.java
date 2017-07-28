@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Veryeld on 30/03/2017.
  */
 public interface Store {
-    void save(BeaconEntry beaconEntry);
+    void save(Integer userId, Double latitude, Double longitude);
 
     BeaconEntry getBeaconByBeaconId(Integer beaconId);
 

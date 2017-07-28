@@ -1,8 +1,9 @@
 package fr.woorib.beacon.services;
 
+import fr.woorib.backand.client.exception.BackandException;
 import fr.woorib.beacon.data.BeaconEntry;
 import fr.woorib.beacon.persistance.Store;
-import fr.woorib.beacon.persistance.StoreHSQL;
+import fr.woorib.beacon.persistance.backand.BackandStore;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class BeaconServiceImpl implements BeaconService {
     }
 
     public void setBeacon(Integer userId, Double latitude, Double longitude) {
-        store.save(new BeaconEntry(userId, latitude, longitude));
+        store.save(userId, latitude, longitude);
     }
 
     public BeaconEntry getBeacon(Integer id) {
@@ -29,9 +30,9 @@ public class BeaconServiceImpl implements BeaconService {
         return store.getBeaconByUserId(userId);
     }
 
-    public static void main(String[] args) {
-        BeaconServiceImpl bsi = new BeaconServiceImpl(new StoreHSQL());
-        BeaconEntry beacon = bsi.getBeacon(0);
+    public static void main(String[] args) throws BackandException {
+        BeaconServiceImpl bsi = new BeaconServiceImpl(new BackandStore());
+        BeaconEntry beacon = bsi.getBeacon(7);
         System.out.println(beacon);
         System.out.println(bsi.getUserBeacons(1));
     }

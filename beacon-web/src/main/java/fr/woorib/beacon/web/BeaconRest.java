@@ -1,7 +1,7 @@
 package fr.woorib.beacon.web;
 
 import fr.woorib.beacon.data.BeaconEntry;
-import fr.woorib.beacon.persistance.StoreHSQL;
+import fr.woorib.beacon.persistance.HsqlStore;
 import fr.woorib.beacon.services.BeaconService;
 import fr.woorib.beacon.services.BeaconServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class BeaconRest {
     private BeaconService beaconService;
 
     public BeaconRest() {
-        beaconService = new BeaconServiceImpl(new StoreHSQL());
+        beaconService = new BeaconServiceImpl(new HsqlStore());
     }
 
     @RequestMapping("beaconForUser")
