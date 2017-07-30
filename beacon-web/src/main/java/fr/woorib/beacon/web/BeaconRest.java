@@ -1,7 +1,7 @@
 package fr.woorib.beacon.web;
 
 import fr.woorib.beacon.data.BeaconEntry;
-import fr.woorib.beacon.persistance.HsqlStore;
+import fr.woorib.beacon.persistance.hsql.HsqlStore;
 import fr.woorib.beacon.services.BeaconService;
 import fr.woorib.beacon.services.BeaconServiceImpl;
 import org.springframework.stereotype.Controller;

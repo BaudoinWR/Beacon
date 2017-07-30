@@ -16,12 +16,21 @@ import java.util.List;
 public class BackandStore implements Store {
     private final BackandClient client;
 
-    public BackandStore() throws BackandException {
+    public BackandStore(String username, String password) throws BackandException {
         client = BackandClientImpl.get();
+        client.establishConnection(username, password,"beecon");
     }
 
     public void save(Integer userId, Double latitude, Double longitude) {
-
+        try {
+            Beacon beacon = new Beacon();
+            beacon.setOwner(client.retrieveBackandObjectFromId(userId, User.class));
+            beacon.setLatitude(latitude);
+            beacon.setLongitude(longitude);
+            client.insertNewObject(beacon);
+        } catch (BackandException e) {
+            e.printStackTrace();
+        }
     }
 
     public BeaconEntry getBeaconByBeaconId(Integer beaconId) {

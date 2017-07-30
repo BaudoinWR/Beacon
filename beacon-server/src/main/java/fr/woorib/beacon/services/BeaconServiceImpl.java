@@ -31,7 +31,7 @@ public class BeaconServiceImpl implements BeaconService {
     }
 
     public static void main(String[] args) throws BackandException {
-        BeaconServiceImpl bsi = new BeaconServiceImpl(new BackandStore());
+        BeaconServiceImpl bsi = new BeaconServiceImpl(new BackandStore(args[0], args[1]));
         BeaconEntry beacon = bsi.getBeacon(7);
         System.out.println(beacon);
         System.out.println(bsi.getUserBeacons(1));

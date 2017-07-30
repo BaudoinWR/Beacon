@@ -14,7 +14,6 @@ public class HsqlStore implements Store {
     Connection c;
 
     public HsqlStore() {
-//        Connection c = DriverManager.getConnection("jdbc:hsqldb:file:testdb", "SA", "");
         try {
             c = DriverManager.getConnection("jdbc:hsqldb:file:d:/beacondb/beacdb", "SA", "pipou");
         } catch (SQLException e) {
