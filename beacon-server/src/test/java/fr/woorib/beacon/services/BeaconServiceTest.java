@@ -75,6 +75,11 @@ public class BeaconServiceTest {
                 public int getBeaconId() {
                     return beaconId;
                 }
+
+                @Override
+                public String getDescription() {
+                    return "";
+                }
             });
         }
 

@@ -5,12 +5,9 @@ package fr.woorib.beacon.data;
  */
 public interface BeaconEntry {
 
-    public Integer getUserId();
-
-    public Double getLongitude();
-
-    public Double getLatitude();
-
-    public int getBeaconId();
-
+    Integer getUserId();
+    Double getLongitude();
+    Double getLatitude();
+    int getBeaconId();
+    String getDescription();
 }

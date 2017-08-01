@@ -71,6 +71,11 @@ public class HsqlStore implements Store {
             public int getBeaconId() {
                 return beaconid;
             }
+
+            @Override
+            public String getDescription() {
+                return "";
+            }
         };
     }
 

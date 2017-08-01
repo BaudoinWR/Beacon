@@ -62,6 +62,11 @@ public class BackandStore implements Store {
             }
 
             @Override
+            public String getDescription() {
+                return beacon.getDescription();
+            }
+
+            @Override
             public String toString() {
                 return beacon.toString();
             }
@@ -71,6 +76,9 @@ public class BackandStore implements Store {
     public List<BeaconEntry> getBeaconByUserId(Integer userId) {
         List<BeaconEntry> result = new ArrayList<BeaconEntry>();
         try {
+            if (userId == null) {
+                userId = client.getCurrentUser();
+            }
             User user = client.retrieveBackandObjectFromId(userId, User.class);
             Collection<Beacon> beacons = user.getBeacons();
             for (Beacon beacon: beacons) {
