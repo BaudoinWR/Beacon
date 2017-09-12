@@ -28,6 +28,7 @@ public class Main {
   private static String getEnvSystemProperty(String key, String def) {
     String getenv = System.getenv(key);
     String result = getenv != null ? getenv : System.getProperty(key, def);
+    System.out.println("RESOLVED "+key+" = "+result);
     return result;
   }
 }

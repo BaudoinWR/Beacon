@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -32,7 +30,6 @@ public class Beacon implements Serializable {
   @Transient
   private Collection<User> targets;
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Column(name = "BEACON_ID")
   private int id;
 
