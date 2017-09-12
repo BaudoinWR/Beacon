@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>fr.woorib</groupId>
-            <artifactId>beacon-server</artifactId>
+            <artifactId>beacon-impl</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
 
