@@ -1,8 +1,7 @@
 package fr.woorib.beacon.services;
 
-import fr.woorib.beacon.data.BeaconEntry;
-
 import java.util.List;
+import fr.woorib.beacon.data.BeaconEntry;
 
 /**
  * Created by Veryeld on 29/03/2017.
@@ -12,10 +11,10 @@ public interface BeaconService {
     /**
      * Save a beacon, linked to an user.
      * @param userId
-     * @param longitude
      * @param latitude
+     * @param longitude
      */
-    void setBeacon(Integer userId, Double latitude, Double longitude);
+    Integer setBeacon(Integer userId, Double latitude, Double longitude);
 
     /**
      * Retrieve a beacon by it's ID

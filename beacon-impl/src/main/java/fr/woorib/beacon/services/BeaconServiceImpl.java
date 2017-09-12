@@ -1,11 +1,10 @@
 package fr.woorib.beacon.services;
 
+import java.util.List;
 import fr.woorib.backand.client.exception.BackandException;
 import fr.woorib.beacon.data.BeaconEntry;
 import fr.woorib.beacon.persistance.Store;
 import fr.woorib.beacon.persistance.backand.BackandStore;
-
-import java.util.List;
 
 /**
  * Implementation of the BeaconService interface
@@ -18,8 +17,8 @@ public class BeaconServiceImpl implements BeaconService {
         this.store = store;
     }
 
-    public void setBeacon(Integer userId, Double latitude, Double longitude) {
-        store.save(userId, latitude, longitude);
+    public Integer setBeacon(Integer userId, Double latitude, Double longitude) {
+        return store.saveBeacon(userId, latitude, longitude);
     }
 
     public BeaconEntry getBeacon(Integer id) {

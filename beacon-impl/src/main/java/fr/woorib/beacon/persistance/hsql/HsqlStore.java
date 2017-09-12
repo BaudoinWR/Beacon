@@ -1,11 +1,15 @@
 package fr.woorib.beacon.persistance.hsql;
 
-import fr.woorib.beacon.data.BeaconEntry;
-import fr.woorib.beacon.persistance.Store;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import fr.woorib.beacon.data.BeaconEntry;
+import fr.woorib.beacon.persistance.Store;
 
 /**
  * Created by Veryeld on 30/03/2017.
@@ -21,16 +25,19 @@ public class HsqlStore implements Store {
         }
     }
 
-    public void save(Integer userId, Double latitude, Double longitude) {
+    public Integer saveBeacon(Integer userId, Double latitude, Double longitude) {
         try {
             PreparedStatement preparedStatement = c.prepareStatement("insert into Beacon(userid, latitude, longitude) values (?, ?, ?)");
             preparedStatement.setInt(1, userId);
             preparedStatement.setDouble(2, latitude);
             preparedStatement.setDouble(3, longitude);
             preparedStatement.execute();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            return Integer.valueOf(generatedKeys.getString(1));
         } catch (SQLException e) {
             e.printStackTrace();
         }
+      return null;
     }
 
     public BeaconEntry getBeaconByBeaconId(Integer id) {
@@ -115,11 +122,11 @@ public class HsqlStore implements Store {
     public static void main(String[] args) {
         HsqlStore hsqlStore = new HsqlStore();
         hsqlStore.setupDB();
-        hsqlStore.save(1, 45.792186, 4.792958);
-        hsqlStore.save(3, 2.56423d,41.56d);
-        hsqlStore.save(3, 2.54566d,2.545689d);
-        hsqlStore.save(1, 52.54565d,24.65659d);
-        hsqlStore.save(1, 25.54668d,32.5464d);
+        hsqlStore.saveBeacon(1, 45.792186, 4.792958);
+        hsqlStore.saveBeacon(3, 2.56423d, 41.56d);
+        hsqlStore.saveBeacon(3, 2.54566d, 2.545689d);
+        hsqlStore.saveBeacon(1, 52.54565d, 24.65659d);
+        hsqlStore.saveBeacon(1, 25.54668d, 32.5464d);
         hsqlStore.shutdown();
     }
 }

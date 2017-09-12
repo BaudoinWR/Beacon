@@ -1,13 +1,12 @@
 package fr.woorib.beacon.services;
 
-import fr.woorib.beacon.data.BeaconEntry;
-import fr.woorib.beacon.persistance.Store;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
+import fr.woorib.beacon.data.BeaconEntry;
+import fr.woorib.beacon.persistance.Store;
 
 /**
  * Created by Veryeld on 01/04/2017.
@@ -57,7 +56,7 @@ public class BeaconServiceTest {
         Integer id = 0;
         public List<BeaconEntry> entries = new ArrayList<BeaconEntry>();
 
-        public void save(final Integer userId, final Double latitude, final Double longitude) {
+        public Integer saveBeacon(final Integer userId, final Double latitude, final Double longitude) {
             final int beaconId = id++;
             entries.add(new BeaconEntry() {
                 public Integer getUserId() {
@@ -76,6 +75,7 @@ public class BeaconServiceTest {
                     return beaconId;
                 }
             });
+          return userId;
         }
 
         public BeaconEntry getBeaconByBeaconId(Integer beaconId) {

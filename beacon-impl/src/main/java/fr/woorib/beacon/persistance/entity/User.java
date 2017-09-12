@@ -1,19 +1,33 @@
-package fr.woorib.beacon.persistance.backand;
-
-import fr.woorib.backand.client.api.BackandManyToMany;
-import fr.woorib.backand.client.api.BackandObject;
+package fr.woorib.beacon.persistance.entity;
 
 import java.util.Collection;
 import java.util.Collections;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import fr.woorib.backand.client.api.BackandManyToMany;
+import fr.woorib.backand.client.api.BackandObject;
 
 /**
- * User bean used for personal testing with backand.com account
+ * User bean
  */
+@Entity
+@Table(name = "USER")
 @BackandObject(table="users")
 public class User {
+  @Column(name = "EMAIL")
   private String email = "";
+  @Transient
   private Collection<Beacon> beacons = Collections.emptyList();
+  @Transient
   private Collection<Beacon> seen_beacons = Collections.emptyList();
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @Column(name = "USER_ID")
   private int id = -1;
   public User() {
     email = "";

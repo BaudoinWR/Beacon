@@ -1,21 +1,66 @@
-package fr.woorib.beacon.persistance.backand;
+package fr.woorib.beacon.persistance.entity;
 
+import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import fr.woorib.backand.client.api.BackandManyToMany;
 import fr.woorib.backand.client.api.BackandObject;
-
-import java.util.Collection;
+import fr.woorib.beacon.data.BeaconEntry;
 
 /**
- * Beacon bean used for personal testing with backand.com account
+ * Beacon bean
  */
+@Entity
+@Table(name = "BEACON")
 @BackandObject(table="beacons")
-public class Beacon {
+public class Beacon implements Serializable {
+  @Column(name = "LATITUDE", nullable = false)
   private Double latitude;
+  @Column(name = "LONGITUDE", nullable = false)
   private Double longitude;
+  @Column(name = "DESCRIPTION")
   private String description;
+  @ManyToOne(targetEntity = User.class)
   private User owner;
+  @Transient
   private Collection<User> targets;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @Column(name = "BEACON_ID")
   private int id;
+
+  public static BeaconEntry getBeaconEntry(final Beacon beacon) {
+      return new BeaconEntry() {
+          public Integer getUserId() {
+            User owner = beacon.getOwner();
+            return owner != null ? owner.getId() : null;
+          }
+
+          public Double getLongitude() {
+              return beacon.getLongitude();
+          }
+
+          public Double getLatitude() {
+              return beacon.getLatitude();
+          }
+
+          public int getBeaconId() {
+              return beacon.getId();
+          }
+
+          @Override
+          public String toString() {
+              return beacon.toString();
+          }
+      };
+  }
 
   public Double getLatitude() {
     return latitude;
