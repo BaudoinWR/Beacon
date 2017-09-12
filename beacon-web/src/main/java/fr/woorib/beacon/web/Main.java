@@ -14,9 +14,21 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 public class Main {
 
     public static void main(String[] args) {
-      System.setProperty("JDBC_DRIVER", System.getProperty("JDBC_DRIVER", "org.postgresql.Driver"));
-      System.setProperty("DATABASE_URL", System.getProperty("DATABASE_URL", "jdbc:hsqldb:mem:testdb"));
+      System.setProperty("JDBC_DRIVER", getEnvSystemProperty("JDBC_DRIVER", "org.postgresql.Driver"));
+      System.setProperty("JDBC_DATABASE_URL", getEnvSystemProperty("JDBC_DATABASE_URL", "jdbc:hsqldb:mem:testdb"));
       SpringApplication.run(Main.class, args);
     }
+
+  /**
+   * Looks for a property in Environment then System.getProperti  es
+   * @param key
+   * @param def
+   * @return the value found or def
+   */
+  private static String getEnvSystemProperty(String key, String def) {
+    String getenv = System.getenv(key);
+    String result = getenv != null ? getenv : System.getProperty(key, def);
+    return result;
+  }
 }
 
