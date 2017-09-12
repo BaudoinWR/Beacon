@@ -1,5 +1,6 @@
 package fr.woorib.beacon.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import fr.woorib.backand.client.exception.BackandException;
 import fr.woorib.beacon.data.BeaconEntry;
@@ -17,7 +18,7 @@ public class BeaconServiceImpl implements BeaconService {
         this.store = store;
     }
 
-    public Integer setBeacon(Integer userId, Double latitude, Double longitude) {
+    public Integer setBeacon(Integer userId, BigDecimal latitude, BigDecimal longitude) {
         return store.saveBeacon(userId, latitude, longitude);
     }
 

@@ -1,5 +1,6 @@
 package fr.woorib.beacon.services;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
@@ -12,8 +13,8 @@ import fr.woorib.beacon.persistance.Store;
  * Created by Veryeld on 01/04/2017.
  */
 public class BeaconServiceTest {
-    private static final double LATITUDE = 45.2;
-    private static final double LONGITUDE = 3.7;
+    private static final BigDecimal LATITUDE = new BigDecimal(45.2);
+    private static final BigDecimal LONGITUDE = new BigDecimal(3.7);
 
     private static BeaconService beaconService;
     private static StoreTest store;
@@ -37,8 +38,8 @@ public class BeaconServiceTest {
         BeaconEntry beacon  = beaconService.getBeacon(0);
         Assert.assertEquals(0, beacon.getBeaconId());
         Assert.assertEquals(5, (int) beacon.getUserId());
-        Assert.assertEquals(LONGITUDE, beacon.getLongitude(), 0.001);
-        Assert.assertEquals(LATITUDE, beacon.getLatitude(), 0.001);
+        Assert.assertEquals(LONGITUDE, beacon.getLongitude());
+        Assert.assertEquals(LATITUDE, beacon.getLatitude());
     }
 
     @Test
@@ -56,18 +57,18 @@ public class BeaconServiceTest {
         Integer id = 0;
         public List<BeaconEntry> entries = new ArrayList<BeaconEntry>();
 
-        public Integer saveBeacon(final Integer userId, final Double latitude, final Double longitude) {
+        public Integer saveBeacon(final Integer userId, final BigDecimal latitude, final BigDecimal longitude) {
             final int beaconId = id++;
             entries.add(new BeaconEntry() {
                 public Integer getUserId() {
                     return userId;
                 }
 
-                public Double getLongitude() {
+                public BigDecimal getLongitude() {
                     return longitude;
                 }
 
-                public Double getLatitude() {
+                public BigDecimal getLatitude() {
                     return latitude;
                 }
 

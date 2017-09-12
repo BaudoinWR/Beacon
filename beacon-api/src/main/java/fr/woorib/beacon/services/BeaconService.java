@@ -1,5 +1,6 @@
 package fr.woorib.beacon.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import fr.woorib.beacon.data.BeaconEntry;
 
@@ -14,7 +15,7 @@ public interface BeaconService {
      * @param latitude
      * @param longitude
      */
-    Integer setBeacon(Integer userId, Double latitude, Double longitude);
+    Integer setBeacon(Integer userId, BigDecimal latitude, BigDecimal longitude);
 
     /**
      * Retrieve a beacon by it's ID

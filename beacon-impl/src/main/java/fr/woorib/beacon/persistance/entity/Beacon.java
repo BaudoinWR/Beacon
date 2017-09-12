@@ -1,13 +1,10 @@
 package fr.woorib.beacon.persistance.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+
 import fr.woorib.backand.client.api.BackandManyToMany;
 import fr.woorib.backand.client.api.BackandObject;
 import fr.woorib.beacon.data.BeaconEntry;
@@ -16,13 +13,13 @@ import fr.woorib.beacon.data.BeaconEntry;
  * Beacon bean
  */
 @Entity
-@Table(name = "BEACON")
+@Table(name = "T_BEACON")
 @BackandObject(table="beacons")
 public class Beacon implements Serializable {
   @Column(name = "LATITUDE", nullable = false)
-  private Double latitude;
+  private BigDecimal latitude;
   @Column(name = "LONGITUDE", nullable = false)
-  private Double longitude;
+  private BigDecimal longitude;
   @Column(name = "DESCRIPTION")
   private String description;
   @ManyToOne(targetEntity = User.class)
@@ -30,6 +27,7 @@ public class Beacon implements Serializable {
   @Transient
   private Collection<User> targets;
   @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name = "BEACON_ID")
   private int id;
 
@@ -40,11 +38,11 @@ public class Beacon implements Serializable {
             return owner != null ? owner.getId() : null;
           }
 
-          public Double getLongitude() {
+          public BigDecimal getLongitude() {
               return beacon.getLongitude();
           }
 
-          public Double getLatitude() {
+          public BigDecimal getLatitude() {
               return beacon.getLatitude();
           }
 
@@ -59,11 +57,11 @@ public class Beacon implements Serializable {
       };
   }
 
-  public Double getLatitude() {
+  public BigDecimal getLatitude() {
     return latitude;
   }
 
-  public void setLatitude(Double latitude) {
+  public void setLatitude(BigDecimal latitude) {
     this.latitude = latitude;
   }
 
@@ -75,11 +73,11 @@ public class Beacon implements Serializable {
     this.description = description;
   }
 
-  public Double getLongitude() {
+  public BigDecimal getLongitude() {
     return longitude;
   }
 
-  public void setLongitude(Double longitude) {
+  public void setLongitude(BigDecimal longitude) {
     this.longitude = longitude;
   }
 

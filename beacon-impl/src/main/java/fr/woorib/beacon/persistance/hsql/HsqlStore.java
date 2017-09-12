@@ -1,5 +1,6 @@
 package fr.woorib.beacon.persistance.hsql;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,12 +26,12 @@ public class HsqlStore implements Store {
         }
     }
 
-    public Integer saveBeacon(Integer userId, Double latitude, Double longitude) {
+    public Integer saveBeacon(Integer userId, BigDecimal latitude, BigDecimal longitude) {
         try {
             PreparedStatement preparedStatement = c.prepareStatement("insert into Beacon(userid, latitude, longitude) values (?, ?, ?)");
             preparedStatement.setInt(1, userId);
-            preparedStatement.setDouble(2, latitude);
-            preparedStatement.setDouble(3, longitude);
+            preparedStatement.setBigDecimal(2, latitude);
+            preparedStatement.setBigDecimal(3, longitude);
             preparedStatement.execute();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             return Integer.valueOf(generatedKeys.getString(1));
@@ -59,19 +60,19 @@ public class HsqlStore implements Store {
     private BeaconEntry extractBeacon(ResultSet resultSet) throws SQLException {
         final int beaconid = resultSet.getInt(1);
         final int userid = resultSet.getInt(2);
-        final double latitude = resultSet.getDouble(3);
-        final double longitude = resultSet.getDouble(4);
+        final BigDecimal latitude = resultSet.getBigDecimal(3);
+        final BigDecimal longitude = resultSet.getBigDecimal(4);
 
         return new BeaconEntry() {
             public Integer getUserId() {
                 return userid;
             }
 
-            public Double getLongitude() {
+            public BigDecimal getLongitude() {
                 return longitude;
             }
 
-            public Double getLatitude() {
+            public BigDecimal getLatitude() {
                 return latitude;
             }
 
@@ -122,11 +123,11 @@ public class HsqlStore implements Store {
     public static void main(String[] args) {
         HsqlStore hsqlStore = new HsqlStore();
         hsqlStore.setupDB();
-        hsqlStore.saveBeacon(1, 45.792186, 4.792958);
-        hsqlStore.saveBeacon(3, 2.56423d, 41.56d);
-        hsqlStore.saveBeacon(3, 2.54566d, 2.545689d);
-        hsqlStore.saveBeacon(1, 52.54565d, 24.65659d);
-        hsqlStore.saveBeacon(1, 25.54668d, 32.5464d);
+        hsqlStore.saveBeacon(1, new BigDecimal(45.792186), new BigDecimal(4.792958));
+        hsqlStore.saveBeacon(3, new BigDecimal(2.56423d), new BigDecimal(41.56d));
+        hsqlStore.saveBeacon(3, new BigDecimal(2.54566d), new BigDecimal(2.545689d));
+        hsqlStore.saveBeacon(1, new BigDecimal(52.54565d), new BigDecimal(24.65659d));
+        hsqlStore.saveBeacon(1, new BigDecimal(25.54668d), new BigDecimal(32.5464d));
         hsqlStore.shutdown();
     }
 }

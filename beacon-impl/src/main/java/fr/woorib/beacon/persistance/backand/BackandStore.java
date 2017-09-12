@@ -1,5 +1,6 @@
 package fr.woorib.beacon.persistance.backand;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -22,7 +23,7 @@ public class BackandStore implements Store {
         client.establishConnection(username, password,"beecon");
     }
 
-    public Integer saveBeacon(Integer userId, Double latitude, Double longitude) {
+    public Integer saveBeacon(Integer userId, BigDecimal latitude, BigDecimal longitude) {
       try {
             Beacon beacon = new Beacon();
             beacon.setOwner(client.retrieveBackandObjectFromId(userId, User.class));

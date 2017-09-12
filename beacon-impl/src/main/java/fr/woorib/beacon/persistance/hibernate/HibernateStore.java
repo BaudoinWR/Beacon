@@ -3,6 +3,8 @@
  **/
 package fr.woorib.beacon.persistance.hibernate;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import org.hibernate.Session;
@@ -28,7 +30,7 @@ public class HibernateStore implements Store {
 
   @Override
   @Transactional(readOnly = false)
-  public Integer saveBeacon(Integer userId, Double latitude, Double longitude) {
+  public Integer saveBeacon(Integer userId, BigDecimal latitude, BigDecimal longitude) {
     Beacon beacon = new Beacon();
     beacon.setLongitude(longitude);
     beacon.setLatitude(latitude);
@@ -48,7 +50,7 @@ public class HibernateStore implements Store {
 
   @Override
   public List<BeaconEntry> getBeaconByUserId(Integer userId) {
-    return null;
+    return new ArrayList<BeaconEntry>();
   }
 }
  

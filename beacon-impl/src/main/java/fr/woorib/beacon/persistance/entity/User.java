@@ -2,11 +2,8 @@ package fr.woorib.beacon.persistance.entity;
 
 import java.util.Collection;
 import java.util.Collections;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+
 import fr.woorib.backand.client.api.BackandManyToMany;
 import fr.woorib.backand.client.api.BackandObject;
 
@@ -14,7 +11,7 @@ import fr.woorib.backand.client.api.BackandObject;
  * User bean
  */
 @Entity
-@Table(name = "USER")
+@Table(name = "T_USER")
 @BackandObject(table="users")
 public class User {
   @Column(name = "EMAIL")
@@ -24,6 +21,7 @@ public class User {
   @Transient
   private Collection<Beacon> seen_beacons = Collections.emptyList();
   @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name = "USER_ID")
   private int id = -1;
   public User() {
