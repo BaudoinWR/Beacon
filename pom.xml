@@ -15,8 +15,8 @@
     </modules>
 
     <properties>
-      <spring.core.version>5.0.0.RC4</spring.core.version>
-      <spring.boot.version>2.0.0.M3</spring.boot.version>
+      <spring.core.version>5.0.4.RELEASE</spring.core.version>
+      <spring.boot.version>2.0.0.RELEASE</spring.boot.version>
       <hibernate.core.version>5.2.10.Final</hibernate.core.version>
     </properties>
 
